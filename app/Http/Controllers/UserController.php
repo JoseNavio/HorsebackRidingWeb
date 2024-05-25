@@ -17,6 +17,31 @@ class UserController extends Controller
         }
     }
 
+    //Login
+    public function login(Request $request)
+    {
+        $incomingFields = $request->validate(
+            [
+                "loginusername" => "required",
+                "loginpassword" => "required"
+            ]
+        );
+        //auth()->attempt() method in Laravel automatically hashes the password
+        if (
+            auth()->attempt([
+                "username" => $incomingFields["loginusername"],
+                "password" => $incomingFields["loginpassword"]
+            ])
+        ) {
+            //Store cookie on the user's browser...
+            $request->session()->regenerate();
+            return "Success!";
+        } else {
+            return "Failed!";
+        }
+
+    }
+
     //Register
     public function register(Request $request)
     {
@@ -40,7 +65,7 @@ class UserController extends Controller
         $user = User::create($incomingFields);
         //Log the user in after registration
         auth()->login($user);
-         
+
         return redirect("/")->with("success", "Congratulations! You are registered.");
     }
 }
