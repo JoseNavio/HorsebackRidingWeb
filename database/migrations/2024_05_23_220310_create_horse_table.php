@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('breed');
+            $table->string('gender')->nullable();
             $table->string('age');
-            $table->boolean('is_sick')->default(false);
+            $table->boolean('is_sick')->nullable()->default(false);
             $table->string('observations')->nullable();
             $table->timestamps();
         });
