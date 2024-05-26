@@ -17,6 +17,13 @@ class UserController extends Controller
         }
     }
 
+    //Logout
+    public function logout()
+    {
+        auth()->logout();
+        return redirect("/")->with("info", "See you the next time, bye...");
+    }
+
     //Login
     public function login(Request $request)
     {
@@ -35,9 +42,9 @@ class UserController extends Controller
         ) {
             //Store cookie on the user's browser...
             $request->session()->regenerate();
-            return "Success!";
+            return redirect("/")->with("success", "You are logged in!");
         } else {
-            return "Failed!";
+            return redirect("/")->with("failure", "Something went wrong. Please try again.");
         }
 
     }

@@ -28,21 +28,24 @@
             @auth
                 <div class="flex-row my-3 my-md-0">
                     <a href="#" class="text-white mr-2 header-search-icon" title="Search" data-toggle="tooltip"
-                        data-placement="bottom"><i class="fas fa-search"></i></a>
+                        data-placement="bottom"><i class="fas fa-chess-knight"></i></a>
                     <span class="text-white mr-2 header-chat-icon" title="Chat" data-toggle="tooltip"
                         data-placement="bottom"><i class="fas fa-comment"></i></span>
-                    <a href="/profile/{{auth()->user()->username}}" class="mr-2"><img title={{auth()->user()->username}} data-toggle="tooltip" data-placement="bottom"
+                    <a href="/profile/{{ auth()->user()->username }}" class="mr-2"><img
+                            title={{ auth()->user()->username }} data-toggle="tooltip" data-placement="bottom"
                             style="width: 32px; height: 32px; border-radius: 16px"
-                            src="https://gravatar.com/avatar/f64fc44c03a8a7eb1d52502950879659?s=128" /></a>
-                    <!--Create post button-->
-                    <a class="btn btn-sm btn-success mr-2" href="/show-form">Create Post</a>
+                            src="{{ asset('icons/default_avatar.png') }}" /></a>
+                    <!--Create booking button-->
+                    <a class="btn btn-sm btn-success mr-2" href="/create-booking">Book a ride</a>
+                    <!--Create horse button-->
+                    <a class="btn btn-sm btn-success mr-2" href="/horse-form">Add horse</a>
                     <!--Sign out button-->
                     <form action="/logout" method="POST" class="d-inline">
                         @csrf
                         <button class="btn btn-sm btn-secondary">Sign Out</button>
                     </form>
                 </div>
-            <!--Not logged in-->
+                <!--Not logged in-->
             @else
                 <form action="/login" method="POST" class="mb-0 pt-2 pt-md-0">
                     @csrf
@@ -73,16 +76,26 @@
     </header>
 
     @if (session()->has('success'))
-    <div class="container container--narrow">
-        <div class="alert alert-success text-center">
-            {{ session('success') }}
+        <div class="container container--narrow">
+            <div class="alert alert-success text-center">
+                {{ session('success') }}
+            </div>
+        </div>
+    @endif
+
+    @if (session()->has('info'))
+        <div class="container container--narrow">
+            <div class="alert alert-info text-center">
+                {{ session('info') }}
+            </div>
         </div>
     @endif
 
     @if (session()->has('failure'))
-    <div class="container container--narrow">
-        <div class="alert alert-danger text-center">
-            {{ session('failure') }}
+        <div class="container container--narrow">
+            <div class="alert alert-danger text-center">
+                {{ session('failure') }}
+            </div>
         </div>
     @endif
 
@@ -93,7 +106,8 @@
     {{-- Footer --}}
 
     <footer class="border-top text-center small text-muted py-3">
-        <p class="m-0">Copyright &copy; {{date("Y")}} <a href="/" class="text-muted">HorsebackRiding</a>. All rights reserved to Jose Navío.
+        <p class="m-0">Copyright &copy; {{ date('Y') }} <a href="/" class="text-muted">HorsebackRiding</a>.
+            All rights reserved to Jose Navío.
         </p>
     </footer>
 
