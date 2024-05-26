@@ -30,7 +30,7 @@ class HorseController extends Controller
                     "max:20",
                 ],
                 "gender" => [
-                    Rule::in(['', 'Male', 'Female', 'male', 'female', 'M', 'F', 'm', 'f'])
+                    Rule::in(['Male', 'Female', 'male', 'female', 'M', 'F', 'm', 'f', null])
                 ],
                 "age" => [
                     "required",
@@ -39,7 +39,7 @@ class HorseController extends Controller
                     "max:40",
                 ],
                 "is_sick" => [
-                    Rule::in(['', '0', '1', 'true', 'false', 'yes', 'no', null]),
+                    Rule::in(['0', '1', 'true', 'false', 'yes', 'no', null]),
                 ],
                 "observations" => [
                     "max:100"

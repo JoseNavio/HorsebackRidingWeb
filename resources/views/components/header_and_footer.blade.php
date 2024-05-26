@@ -36,7 +36,7 @@
                             style="width: 32px; height: 32px; border-radius: 16px"
                             src="{{ asset('icons/default_avatar.png') }}" /></a>
                     <!--Create booking button-->
-                    <a class="btn btn-sm btn-success mr-2" href="/create-booking">Book a ride</a>
+                    <a class="btn btn-sm btn-success mr-2" href="/booking-form">Book a ride</a>
                     <!--Create horse button-->
                     <a class="btn btn-sm btn-success mr-2" href="/horse-form">Add horse</a>
                     <!--Sign out button-->

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('horse_id')->constrained()->onDelete('cascade');
             $table->date('date');
-            $table->time('time');
+            $table->integer('hour');
             $table->string('comment')->nullable();
             $table->timestamps();
         });
