@@ -59,7 +59,7 @@ class HorseController extends Controller
                     Rule::in(['0', '1', 'True', 'true', 'False', 'false', 'Y', 'y', 'Yes', 'yes', 'N', 'n', 'No', 'no', null]),
                 ],
                 "observations" => [
-                    "max:100"
+                    "max:150"
                 ]
             ]
         );
@@ -83,6 +83,6 @@ class HorseController extends Controller
         $horse = Horse::create($incomingFields);
 
         // return redirect("/horse-form")->with("success", "Perfect!. A new horse has been registered!");
-        return redirect("/horse-info/{$horse->id}")->with("success", "Perfect!. A new horse has been registered!");
+        return redirect("/horse-info/{$horse->id}")->with("success", "Perfect!, A new horse has been registered!");
     }
 }

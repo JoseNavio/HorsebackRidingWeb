@@ -12,16 +12,18 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'horse_id',
-        'date',
+        'date', 
         'hour',
         'comment',
     ];
 
-    public function user(){
-        return $this -> belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function horse(){
-        return $this -> belongsTo(Horse::class);
+    public function horse()
+    {
+        return $this->belongsTo(Horse::class, 'horse_id');
     }
 }

@@ -16,6 +16,12 @@ class BookingController extends Controller
         return view("booking-form", ['horses' => $horses]);
     }
 
+    public function showBookings()
+    {
+        $bookings = auth()->user()->bookings;
+        return view("homepage-feed", ['bookings' => $bookings]);
+    }
+
     public function registerBooking(Request $request)
     {
         //Show user id

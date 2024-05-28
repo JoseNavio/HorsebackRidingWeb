@@ -11,7 +11,8 @@ class UserController extends Controller
     public function showCorrectHomePage()
     {
         if (auth()->check()) {
-            return view(("homepage-feed"));
+            $bookings = auth()->user()->bookings;
+            return view("homepage-feed", ['bookings' => $bookings]);
         } else {
             return view("homepage");
         }
