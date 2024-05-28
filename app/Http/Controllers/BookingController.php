@@ -18,9 +18,11 @@ class BookingController extends Controller
 
     public function showBookings()
     {
+        // $bookings = auth()->user()->bookings()->get(); o...
         $bookings = auth()->user()->bookings;
         return view("homepage-feed", ['bookings' => $bookings]);
     }
+
 
     public function registerBooking(Request $request)
     {

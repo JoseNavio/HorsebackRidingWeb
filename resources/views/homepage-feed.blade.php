@@ -9,9 +9,9 @@
         <div class="row">
             @foreach ($bookings as $booking)
                 <div class="col-sm-6">
-                    <div class="card mb-4">
+                    <div class="card m-4">
                         <div class="card-body d-flex flex-column">
-                            <div class="row">
+                            <div class="row m-2">
                                 <div class="row m-3">
                                     <p class="card-text"><strong>Horse:</strong> {{ $booking->horse->horse_name }}</p>
                                 </div>
@@ -21,9 +21,11 @@
                                 <div class="row m-3">
                                     <p class="card-text"><strong>Hour:</strong> {{ $booking->hour }}</p>
                                 </div>
-                                <div class="row m-3">
-                                    <p class="card-text"><strong>Comment:</strong> {{ $booking->comment }}</p>
-                                </div>
+                                @if ($booking->comment !== null && $booking->comment !== '')
+                                    <div class="row m-3">
+                                        <p class="card-text"><strong>Comment:</strong> {{ $booking->comment }}</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
