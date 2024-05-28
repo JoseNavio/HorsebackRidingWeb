@@ -27,7 +27,8 @@
             <!--Logged in-->
             @auth
                 <div class="flex-row my-3 my-md-0">
-                    <a href="#" class="text-white mr-2 header-search-icon" title="Search" data-toggle="tooltip"
+                    {{-- Horse icon --}}
+                    <a href="/horses-page" class="text-white mr-2 header-search-icon" title="Search" data-toggle="tooltip"
                         data-placement="bottom"><i class="fas fa-chess-knight"></i></a>
                     <span class="text-white mr-2 header-chat-icon" title="Chat" data-toggle="tooltip"
                         data-placement="bottom"><i class="fas fa-comment"></i></span>

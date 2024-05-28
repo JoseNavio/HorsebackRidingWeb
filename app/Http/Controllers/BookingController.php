@@ -50,7 +50,8 @@ class BookingController extends Controller
         );
 
         //Add the user_id to the incoming fields
-        $incomingFields['user_id'] = $request->user()->id;
+        $incomingFields['user_id'] = auth()->id();
+        $incomingFields['comment'] = strip_tags($incomingFields['comment']);
 
         Booking::create($incomingFields);
 

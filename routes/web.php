@@ -12,15 +12,15 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout']);
 
 //Horses related routes
+Route::post('/horse-delete/{horse}', [HorseController::class, 'deleteHorse']);
+Route::get('/horse-info/{horse}', [HorseController::class, 'showHorseInfo']);
 Route::get('/horse-form', [HorseController::class, 'showHorseForm']);
+Route::get('/horses-page', [HorseController::class, 'showHorses']);
 Route::post('/horse-register', [HorseController::class, 'registerHorse']);
 
 //Booking related routes
-//Horses related routes
 Route::get('/booking-form', [BookingController::class, 'showBookingForm']);
 Route::post('/booking-register', [BookingController::class, 'registerBooking']);
-
-
 
 // Route::get('/', function(){
 //     return view('horse-form');

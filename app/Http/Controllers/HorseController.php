@@ -8,9 +8,26 @@ use Illuminate\Validation\Rule;
 
 class HorseController extends Controller
 {
+    public function deleteHorse(Horse $horse)
+    {
+        $horse->delete();
+        return redirect('horses-page')->with('success', "Good, now is with God!");
+    }
+
+    public function showHorseInfo(Horse $horse)
+    {
+        $horse = Horse::find($horse->id);
+        return view("horse-info", ['horse' => $horse]);
+    }
+
     public function showHorseForm()
     {
         return view("horse-form");
+    }
+
+    public function showHorses()
+    {
+        return view("horses-page", ['horses' => Horse::all()]);
     }
 
     public function registerHorse(Request $request)
@@ -39,7 +56,7 @@ class HorseController extends Controller
                     "max:40",
                 ],
                 "is_sick" => [
-                    Rule::in(['0', '1', 'true', 'false', 'yes', 'no', null]),
+                    Rule::in(['0', '1', 'True', 'true', 'False', 'false', 'Y', 'y', 'Yes', 'yes', 'N', 'n', 'No', 'no', null]),
                 ],
                 "observations" => [
                     "max:100"
@@ -60,9 +77,12 @@ class HorseController extends Controller
         } else {
             $incomingFields['gender'] = 'Unknown';
         }
+        //Observations
+        $incomingFields['observations'] = strip_tags($incomingFields['observations']);
 
-        Horse::create($incomingFields);
+        $horse = Horse::create($incomingFields);
 
-        return redirect("/horse-form")->with("success", "Perfect!. A new horse has been registered!");
+        // return redirect("/horse-form")->with("success", "Perfect!. A new horse has been registered!");
+        return redirect("/horse-info/{$horse->id}")->with("success", "Perfect!. A new horse has been registered!");
     }
 }
