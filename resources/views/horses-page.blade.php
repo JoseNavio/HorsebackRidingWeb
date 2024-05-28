@@ -4,9 +4,13 @@
             <!--Horse list-->
             <div class="col-lg-12 py-3 py-md-5">
                 <h1 class="display-3">Horses</h1>
-                <p class="lead text-muted">
-                    Here is a list of all the available horses.
-                </p>
+                <div class="row m-2">
+                    <p class="lead text-muted m-2">
+                        Here is a list of all the horses in the stable.
+                    </p>
+                    <!--Create horse button-->
+                    <a class="btn btn-sm btn-success m-2" href="/horse-form">Add horse</a>
+                </div>
                 <div class="row">
                     @foreach ($horses as $horse)
                         <div class="col-sm-6">

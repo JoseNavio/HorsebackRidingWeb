@@ -27,24 +27,24 @@
             <!--Logged in-->
             @auth
                 <div class="flex-row my-3 my-md-0">
-                    {{-- Horse icon --}}
-                    <a href="/horses-page" class="text-white mr-2 header-search-icon" title="Search" data-toggle="tooltip"
-                        data-placement="bottom"><i class="fas fa-chess-knight"></i></a>
-                    <span class="text-white mr-2 header-chat-icon" title="Chat" data-toggle="tooltip"
-                        data-placement="bottom"><i class="fas fa-comment"></i></span>
-                    <a href="/profile/{{ auth()->user()->username }}" class="mr-2"><img
+                    <div class="d-flex align-items-center">
+                        {{-- Horse icon --}}
+                        <a href="/horses-page" class="text-white mb-1 mr-3 header-search-icon" title="Search"
+                            data-toggle="tooltip" data-placement="bottom"><i class="fas fa-chess-knight fa-2x"></i></a>
+                        <!--Create booking button-->
+                        <a class="btn btn-sm btn-success mr-3" href="/booking-form">Book a ride</a>
+                        <!--Sign out button-->
+                        <form action="/logout" method="POST" class="d-inline">
+                            @csrf
+                            <button class="btn btn-sm btn-secondary">Sign Out</button>
+                        </form>
+                        {{-- Avatar --}}
+                        <a href="/profile/{{ auth()->user()->username }}" class="mb-1 ml-3"><img
                             title={{ auth()->user()->username }} data-toggle="tooltip" data-placement="bottom"
                             style="width: 32px; height: 32px; border-radius: 16px"
                             src="{{ asset('icons/default_avatar.png') }}" /></a>
-                    <!--Create booking button-->
-                    <a class="btn btn-sm btn-success mr-2" href="/booking-form">Book a ride</a>
-                    <!--Create horse button-->
-                    <a class="btn btn-sm btn-success mr-2" href="/horse-form">Add horse</a>
-                    <!--Sign out button-->
-                    <form action="/logout" method="POST" class="d-inline">
-                        @csrf
-                        <button class="btn btn-sm btn-secondary">Sign Out</button>
-                    </form>
+                    </div>
+
                 </div>
                 <!--Not logged in-->
             @else
