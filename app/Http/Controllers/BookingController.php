@@ -10,6 +10,51 @@ use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
+
+    public function updateBooking(Request $request, Booking $booking)
+    {
+        //Log debug the incoming fields
+        // dd($request->all());
+
+        Validator::extend('weekend', function ($attribute, $value, $parameters, $validator) {
+            return in_array(date('l', strtotime($value)), ['Saturday', 'Sunday']);
+        });
+
+        $incomingFields = $request->validate(
+            [
+                "date" => [
+                    "required",
+                    "date",
+                    "after_or_equal:today",
+                    "before_or_equal:" . now()->addDays(30)->format('Y-m-d'),
+                    "weekend",
+                ],
+                "hour" => [
+                    "required",
+                    "numeric",
+                    Rule::in(['10', '11', '12', '13'])
+                ],
+                "comment" => [
+                    "max:100"
+                ]
+            ]
+        );
+
+        $booking = Booking::findOrFail($booking->id);
+        $booking->update($incomingFields);
+    
+
+        // $booking->update($incomingFields);
+
+        return redirect('/')->with('success', "One booking has been updated.");
+    }
+
+    public function showEditForm(Booking $booking)
+    {
+        $horses = Horse::all();
+        return view("booking-form-edit", ['booking' => $booking, 'horses' => $horses]);
+    }
+
     public function cancelBooking(Booking $booking)
     {
         $booking->delete();

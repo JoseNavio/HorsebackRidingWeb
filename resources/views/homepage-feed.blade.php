@@ -25,6 +25,12 @@
                                     <p class="card-text m-3"><strong>Comment:</strong> {{ $booking->comment }}</p>
                                 @endif
                                 <div class="row m-3 d-flex align-items-center justify-content-center">
+                                    <form action="/booking/{{ $booking->id }}/edit" method="GET">
+                                        @csrf
+                                        <button type="submit" class="btn btn-info">Edit</button>
+                                    </form>
+                                </div>
+                                <div class="row m-3 d-flex align-items-center justify-content-center">
                                     <form action="/booking-delete/{{ $booking->id }}" method="POST">
                                         @csrf
                                         <button type="submit" class="btn btn-danger">Delete</button>
