@@ -1,5 +1,7 @@
 <x-header_and_footer>
     <div class="container py-md-2">
+        {{-- Go back --}}
+        <p><small><strong><a href="/" style="color: #7e38B7;">Go back</a></strong></small></p>
         <div class="row align-items-center">
             <!--Left comment-->
             <div class="col-lg-7 py-3 py-md-5">

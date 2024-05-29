@@ -22,8 +22,9 @@ class BookingController extends Controller
 
         //Validate if the horse is available
         $horse = Horse::findOrFail($request->horse_id);
-        if ($horse->bookings->contains('date', $request->date)) {
-            return redirect()->back()->withErrors(['date' => 'The horse is already booked for this date.'])->withInput();
+        $booking = $horse->bookings->where('date', $request->date)->where('hour', $request->hour)->first();
+        if ($booking) {
+            return redirect()->back()->withErrors(['date' => 'The horse is already booked for this shift.'])->withInput();
         }
 
         //Validate if the booking is full
@@ -31,7 +32,7 @@ class BookingController extends Controller
                                 ->where('hour', $request->hour)
                                 ->count();
         if ($bookingsCount >= 5) {
-            return redirect()->back()->withErrors(['hour' => 'El turno ya está completo.'])->withInput();
+            return redirect()->back()->withErrors(['hour' => 'Shift is full already.'])->withInput();
         }
 
         $incomingFields = $request->validate(
@@ -54,15 +55,13 @@ class BookingController extends Controller
             ]
         );
 
+        $incomingFields['comment'] = strip_tags($incomingFields['comment']);
         $booking = Booking::findOrFail($booking->id);
         $booking->update($incomingFields);
-    
 
-        // $booking->update($incomingFields);
-
-        return redirect('/')->with('success', "One booking has been updated.");
+        return back()->with('success', "One booking has been updated.");
     }
-
+ 
     public function showEditForm(Booking $booking)
     {
         $horses = Horse::all();
@@ -100,8 +99,9 @@ class BookingController extends Controller
 
         //Validate if the horse is available
         $horse = Horse::findOrFail($request->horse_id);
-        if ($horse->bookings->contains('date', $request->date)) {
-            return redirect()->back()->withErrors(['date' => 'The horse is already booked for this date.'])->withInput();
+        $booking = $horse->bookings->where('date', $request->date)->where('hour', $request->hour)->first();
+        if ($booking) {
+            return redirect()->back()->withErrors(['date' => 'The horse is already booked for this shift.'])->withInput();
         }
 
         //Validate if the booking is full
@@ -109,7 +109,7 @@ class BookingController extends Controller
                                 ->where('hour', $request->hour)
                                 ->count();
         if ($bookingsCount >= 5) {
-            return redirect()->back()->withErrors(['hour' => 'El turno ya está completo.'])->withInput();
+            return redirect()->back()->withErrors(['hour' => 'Shift is full already.'])->withInput();
         }
 
         $incomingFields = $request->validate(

@@ -1,5 +1,7 @@
 <x-header_and_footer>
     <div class="container py-md-2">
+        {{-- Go back --}}
+        <p><small><strong><a href="/" style="color: #7e38B7;">Go back</a></strong></small></p>
         <div class="row align-items-center">
             <!--Left comment-->
             <div class="col-lg-7 py-3 py-md-5">
@@ -10,7 +12,8 @@
             </div>
             <!--Registration form-->
             <div class="col-lg-5 pl-lg-5 pb-3 py-lg-5 mx-auto">
-                <form action="/booking/{{$booking->id}}" method="POST" id="update-form">
+                <form action="/booking/{{ $booking->id }}" method="POST" id="update-form">
+                    {{-- Method --}}
                     @method('PUT')
                     @csrf
                     {{-- Horse --}}
@@ -37,7 +40,7 @@
                     {{-- Date --}}
                     <div class="form-group mb-2">
                         <label for="date" class="text-muted mb-1"><small>Date</small></label>
-                        <input value="{{ old('date',$booking->date) }}" name="date" id="date-booking-register"
+                        <input value="{{ old('date', $booking->date) }}" name="date" id="date-booking-register"
                             class="form-control" type="date" placeholder="Enter the date" autocomplete="off" />
                     </div>
 
@@ -56,10 +59,14 @@
                         <label for="hour-booking-register" class="text-muted mb-1"><small>Hour</small></label>
                         <select name="hour" id="hour-booking-register" class="form-control">
                             <option value="">Select an hour</option>
-                            <option value="10" {{ old('hour', $booking->hour) == '10' ? 'selected' : '' }}>10:00</option>
-                            <option value="11" {{ old('hour', $booking->hour) == '11' ? 'selected' : '' }}>11:00</option>
-                            <option value="12" {{ old('hour', $booking->hour) == '12' ? 'selected' : '' }}>12:00</option>
-                            <option value="13" {{ old('hour', $booking->hour) == '13' ? 'selected' : '' }}>13:00</option>
+                            <option value="10" {{ old('hour', $booking->hour) == '10' ? 'selected' : '' }}>10:00
+                            </option>
+                            <option value="11" {{ old('hour', $booking->hour) == '11' ? 'selected' : '' }}>11:00
+                            </option>
+                            <option value="12" {{ old('hour', $booking->hour) == '12' ? 'selected' : '' }}>12:00
+                            </option>
+                            <option value="13" {{ old('hour', $booking->hour) == '13' ? 'selected' : '' }}>13:00
+                            </option>
                         </select>
                     </div>
 
