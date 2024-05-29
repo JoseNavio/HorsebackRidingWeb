@@ -20,6 +20,20 @@ class BookingController extends Controller
             return in_array(date('l', strtotime($value)), ['Saturday', 'Sunday']);
         });
 
+        //Validate if the horse is available
+        $horse = Horse::findOrFail($request->horse_id);
+        if ($horse->bookings->contains('date', $request->date)) {
+            return redirect()->back()->withErrors(['date' => 'The horse is already booked for this date.'])->withInput();
+        }
+
+        //Validate if the booking is full
+        $bookingsCount = Booking::where('date', $request->date)
+                                ->where('hour', $request->hour)
+                                ->count();
+        if ($bookingsCount >= 5) {
+            return redirect()->back()->withErrors(['hour' => 'El turno ya está completo.'])->withInput();
+        }
+
         $incomingFields = $request->validate(
             [
                 "date" => [
@@ -83,6 +97,20 @@ class BookingController extends Controller
         Validator::extend('weekend', function ($attribute, $value, $parameters, $validator) {
             return in_array(date('l', strtotime($value)), ['Saturday', 'Sunday']);
         });
+
+        //Validate if the horse is available
+        $horse = Horse::findOrFail($request->horse_id);
+        if ($horse->bookings->contains('date', $request->date)) {
+            return redirect()->back()->withErrors(['date' => 'The horse is already booked for this date.'])->withInput();
+        }
+
+        //Validate if the booking is full
+        $bookingsCount = Booking::where('date', $request->date)
+                                ->where('hour', $request->hour)
+                                ->count();
+        if ($bookingsCount >= 5) {
+            return redirect()->back()->withErrors(['hour' => 'El turno ya está completo.'])->withInput();
+        }
 
         $incomingFields = $request->validate(
             [
