@@ -19,6 +19,7 @@ Route::get('/horse-form', [HorseController::class, 'showHorseForm'])->middleware
 Route::post('/horse-register', [HorseController::class, 'registerHorse'])->middleware('auth');
 
 //Booking related routes (If you only want guests to visit the page use 'guest' instead)
+Route::post('/booking-delete/{booking}', [BookingController::class, 'cancelBooking'])->middleware('auth');
 Route::get('/booking-form', [BookingController::class, 'showBookingForm'])->middleware('mustBeLoggedIn');
 Route::post('/booking-register', [BookingController::class, 'registerBooking'])->middleware('auth');
 

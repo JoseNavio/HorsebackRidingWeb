@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
+    public function cancelBooking(Booking $booking)
+    {
+        $booking->delete();
+        return redirect('/')->with('success', "One booking has been cancelled.");
+    }
+
     public function showBookingForm()
     {
         $horses = Horse::all();
