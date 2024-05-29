@@ -17,21 +17,27 @@
                     @csrf
 
                     {{-- Horse --}}
-                    <div class="mb-6">
-                        <label for="horse_id" class="block text-sm font-medium text-gray-700">Horse</label>
-                        <select name="horse_id" id="horse_id-booking-register" class="form-control">
-                            @forelse ($horses as $horse)
-                                @if (!$horse->is_sick)
-                                    <option value="{{ $horse->id }}"
-                                        {{ old('horse_id') == $horse->id ? 'selected' : '' }}>
-                                        {{ $horse->horse_name }}
-                                    </option>
-                                @endif
-                            @empty
-                                <option>There are no horses yet...</option>
-                            @endforelse
-                        </select>
-                    </div>
+                    @if ($horses->isEmpty())
+                        <p class="m-0 small alert alert-danger shadow-sm">There are no horses available.</p>
+                    @elseif($horses->where('is_sick', 0)->isEmpty())
+                        <p class="m-0 small alert alert-danger shadow-sm">There are no healthy horses available.</p>
+                    @else
+                        <div class="mb-6">
+                            <label for="horse_id" class="block text-sm font-medium text-gray-700">Horse</label>
+                            <select name="horse_id" id="horse_id-booking-register" class="form-control">
+                                @forelse ($horses as $horse)
+                                    @if (!$horse->is_sick)
+                                        <option value="{{ $horse->id }}"
+                                            {{ old('horse_id') == $horse->id ? 'selected' : '' }}>
+                                            {{ $horse->horse_name }}
+                                        </option>
+                                    @endif
+                                @empty
+                                    <option>There are no horses yet...</option>
+                                @endforelse
+                            </select>
+                        </div>
+                    @endif
 
                     @error('horse_id')
                         <p class="m-0 small alert alert-danger shadow-sm">You must choose a horse.</p>
@@ -80,7 +86,10 @@
                         <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
                     @enderror
 
-                    <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Book a ride</button>
+                    <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block"
+                        {{ $horses->isEmpty() || $horses->where('is_sick', 0)->isEmpty() ? 'disabled' : '' }}>
+                        Book a ride
+                    </button>
                 </form>
             </div>
         </div>

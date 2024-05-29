@@ -31,8 +31,9 @@
                                     </form>
                                 </div>
                                 <div class="row m-3 d-flex align-items-center justify-content-center">
-                                    <form action="/booking-delete/{{ $booking->id }}" method="POST">
+                                    <form action="/booking/{{ $booking->id }}" method="POST">
                                         @csrf
+                                        @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                 </div>

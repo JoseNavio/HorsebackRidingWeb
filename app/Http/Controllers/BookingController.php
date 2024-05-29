@@ -87,7 +87,6 @@ class BookingController extends Controller
         return view("homepage-feed", ['bookings' => $bookings]);
     }
 
-
     public function registerBooking(Request $request)
     {
         //Show user id

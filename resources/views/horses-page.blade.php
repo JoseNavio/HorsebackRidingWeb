@@ -10,8 +10,10 @@
                     <p class="lead text-muted m-2">
                         Here is a list of all the horses in the stable.
                     </p>
+                    @can('create', App\Models\Horse::class)
                     <!--Create horse button-->
                     <a class="btn btn-sm btn-success m-2" href="/horse-form">Add horse</a>
+                    @endcan
                 </div>
                 <div class="row">
                     @foreach ($horses as $horse)
