@@ -11,6 +11,9 @@
                     If not, let us introduce you to the magic of connecting with these majestic creatures amidst
                     nature's embrace.
                 </p>
+                <p class="lead text-muted">
+                    {{$userCount}} riders have already signed up. Why not join them?
+                </p>
             </div>
             <!--Registration form-->
             <div class="col-lg-5 pl-lg-5 pb-3 py-lg-5">

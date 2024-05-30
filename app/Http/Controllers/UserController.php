@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -14,7 +15,12 @@ class UserController extends Controller
             $bookings = auth()->user()->bookings;
             return view("homepage-feed", ['bookings' => $bookings]);
         } else {
-            return view("homepage");
+            //sleep(5);
+            //Cache (key, time stored, function to run if key doesn't exist)
+            $userCount = Cache::remember('userCount', 1000, function () {
+                return User::count();
+            });
+            return view("homepage", ['userCount' => $userCount]);
         }
     }
 
