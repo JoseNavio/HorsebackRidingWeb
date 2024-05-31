@@ -144,6 +144,7 @@ class BookingController extends Controller
         return redirect("/booking-form")->with("success", "Your booking has been registered. Thank you!");
     }
 
+    //API
     public function createBookingAPI(Request $request){
 
         Validator::extend('weekend', function ($attribute, $value, $parameters, $validator) {
@@ -194,5 +195,10 @@ class BookingController extends Controller
         //Create it on database
         $newBooking = Booking::create($incomingFields);
         return $newBooking->id;
+    }
+
+    public function deleteBookingAPI($booking){
+        $booking->delete();
+        return 'true';
     }
 }

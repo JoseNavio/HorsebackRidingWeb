@@ -85,4 +85,10 @@ class HorseController extends Controller
         // return redirect("/horse-form")->with("success", "Perfect!. A new horse has been registered!");
         return redirect("/horse-info/{$horse->id}")->with("success", "Perfect!, A new horse has been registered!");
     }
+    //API
+    public function deleteHorseAPI(Horse $horse)
+    {
+        $horse->delete();
+        return 'deleted';
+    }
 }

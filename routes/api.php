@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HorseController;
 use App\Http\Controllers\BookingController;
 
 /*
@@ -20,5 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', [UserController::class, 'loginAPI']); 
-Route::post('/create-booking-api', [BookingController::class, 'createBookingAPI'])->middleware('auth:sanctum');
+Route::post('/login', [UserController::class, 'loginAPI']);
+Route::post('/create-booking', [BookingController::class, 'createBookingAPI'])->middleware('auth:sanctum');
+Route::delete('/delete-booking/{booking}', [BookingController::class, 'deleteBookingAPI'])->middleware('auth:sanctum');
+//Horse
+Route::delete('/delete-horse/{horse}', [HorseController::class, 'deleteHorseAPI'])->middleware(
+    'auth:sanctum',
+    'can:delete,horse'
+);
