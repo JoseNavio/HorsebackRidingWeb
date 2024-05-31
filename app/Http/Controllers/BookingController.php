@@ -13,30 +13,29 @@ class BookingController extends Controller
 
     public function updateBooking(Request $request, Booking $booking)
     {
-        //Log debug the incoming fields
-        // dd($request->all());
-
+       
         Validator::extend('weekend', function ($attribute, $value, $parameters, $validator) {
             return in_array(date('l', strtotime($value)), ['Saturday', 'Sunday']);
         });
 
         //Validate if the horse is available
         $horse = Horse::findOrFail($request->horse_id);
-        $booking = $horse->bookings->where('date', $request->date)->where('hour', $request->hour)->first();
-        if ($booking) {
+        $existingBooking = $horse->bookings->where('date', $request->date)->where('hour', $request->hour)->first();
+        if ($existingBooking) {
             return redirect()->back()->withErrors(['date' => 'The horse is already booked for this shift.'])->withInput();
         }
 
         //Validate if the booking is full
         $bookingsCount = Booking::where('date', $request->date)
-                                ->where('hour', $request->hour)
-                                ->count();
+            ->where('hour', $request->hour)
+            ->count();
         if ($bookingsCount >= 5) {
             return redirect()->back()->withErrors(['hour' => 'Shift is full already.'])->withInput();
         }
 
         $incomingFields = $request->validate(
             [
+                "horse_id" => ["required", "exists:horses,id"],
                 "date" => [
                     "required",
                     "date",
@@ -54,14 +53,19 @@ class BookingController extends Controller
                 ]
             ]
         );
+         //Log debug the incoming fields
+        //  dd($request->all());
 
-        $incomingFields['comment'] = strip_tags($incomingFields['comment']);
-        $booking = Booking::findOrFail($booking->id);
-        $booking->update($incomingFields);
-
+        //Add the user_id to the incoming fields
+        if ($booking != null) {
+            $incomingFields['comment'] = strip_tags($incomingFields['comment']);
+            $booking->update($incomingFields);
+        } else {
+            return back()->with('failure', "Something went wrong.");
+        }
         return back()->with('success', "One booking has been updated.");
     }
- 
+
     public function showEditForm(Booking $booking)
     {
         $horses = Horse::all();
@@ -89,9 +93,6 @@ class BookingController extends Controller
 
     public function registerBooking(Request $request)
     {
-        //Show user id
-        // dd($request->user()->username);
-
         Validator::extend('weekend', function ($attribute, $value, $parameters, $validator) {
             return in_array(date('l', strtotime($value)), ['Saturday', 'Sunday']);
         });
@@ -105,8 +106,8 @@ class BookingController extends Controller
 
         //Validate if the booking is full
         $bookingsCount = Booking::where('date', $request->date)
-                                ->where('hour', $request->hour)
-                                ->count();
+            ->where('hour', $request->hour)
+            ->count();
         if ($bookingsCount >= 5) {
             return redirect()->back()->withErrors(['hour' => 'Shift is full already.'])->withInput();
         }
