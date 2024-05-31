@@ -32,6 +32,23 @@ class UserController extends Controller
     }
 
     //Login
+    public function loginAPI(Request $request)
+    {
+        $incomingFields = $request->validate(
+            [
+                "username" => "required",
+                "password" => "required"
+            ]
+        );
+
+        if (auth()->attempt($incomingFields)) {
+            $user = User::where('username', $incomingFields['username'])->first();
+            $token = $user->createToken("horse_api_token")->plainTextToken;
+            return $token;
+        }
+        return 'Wrong...';
+    }
+
     public function login(Request $request)
     {
         $incomingFields = $request->validate(

@@ -143,4 +143,56 @@ class BookingController extends Controller
 
         return redirect("/booking-form")->with("success", "Your booking has been registered. Thank you!");
     }
+
+    public function createBookingAPI(Request $request){
+
+        Validator::extend('weekend', function ($attribute, $value, $parameters, $validator) {
+            return in_array(date('l', strtotime($value)), ['Saturday', 'Sunday']);
+        });
+
+        //Validate if the horse is available
+        $horse = Horse::findOrFail($request->horse_id);
+        $booking = $horse->bookings->where('date', $request->date)->where('hour', $request->hour)->first();
+        if ($booking) {
+            return redirect()->back()->withErrors(['date' => 'The horse is already booked for this shift.'])->withInput();
+        }
+
+        //Validate if the booking is full
+        $bookingsCount = Booking::where('date', $request->date)
+                                ->where('hour', $request->hour)
+                                ->count();
+        if ($bookingsCount >= 5) {
+            return redirect()->back()->withErrors(['hour' => 'Shift is full already.'])->withInput();
+        }
+
+        $incomingFields = $request->validate(
+            [
+                "horse_id" => [
+                    "required",
+                    "numeric"
+                ],
+                "date" => [
+                    "required",
+                    "date",
+                    "after_or_equal:today",
+                    "before_or_equal:" . now()->addDays(30)->format('Y-m-d'),
+                    "weekend",
+                ],
+                "hour" => [
+                    "required",
+                    "numeric",
+                    Rule::in(['10', '11', '12', '13'])
+                ],
+                "comment" => [
+                    "max:100"
+                ]
+            ]
+        );
+        //Add the user_id to the incoming fields
+        $incomingFields['user_id'] = auth()->id();
+        $incomingFields['comment'] = strip_tags($incomingFields['comment']);
+        //Create it on database
+        $newBooking = Booking::create($incomingFields);
+        return $newBooking->id;
+    }
 }
