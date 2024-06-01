@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HorseController;
 use App\Http\Controllers\BookingController;
 
 //USER
@@ -19,9 +20,7 @@ Route::get('/get-booking/{booking}', [BookingController::class, 'showBookingAPI'
     'can:view,booking'
 );
 //Get all bookings for the user
-Route::get('/get-all-bookings', [BookingController::class, 'showAllBookingsAPI'])->middleware(
-    'auth:sanctum'
-);
+Route::get('/get-all-bookings', [BookingController::class, 'showAllBookingsAPI'])->middleware('auth:sanctum');
 //Update
 Route::put('/update-booking/{booking}', [BookingController::class, 'updateBookingAPI'])->middleware(
     'auth:sanctum',
@@ -35,6 +34,8 @@ Route::delete('/delete-booking/{booking}', [BookingController::class, 'deleteBoo
 
 //HORSE
 
+//Get all bookings for the user
+Route::get('/get-all-horses', [HorseController::class, 'showAllHorsesAPI'])->middleware('auth:sanctum');
 //Delete
 // Route::delete('/delete-horse/{horse}', [HorseController::class, 'deleteHorseAPI'])->middleware(
 //     'auth:sanctum',

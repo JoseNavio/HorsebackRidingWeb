@@ -87,6 +87,12 @@ class HorseController extends Controller
     }
     
     //API
+
+    //Get all
+    public function showAllHorsesAPI()
+    {
+        return Horse::all();
+    }
     public function deleteHorseAPI(Horse $horse)
     {
         
