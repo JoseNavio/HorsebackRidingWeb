@@ -6,6 +6,7 @@ use App\Models\Horse;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
@@ -146,6 +147,8 @@ class BookingController extends Controller
     }
 
     //API
+
+    //Post
     public function createBookingAPI(Request $request){
 
         Validator::extend('weekend', function ($attribute, $value, $parameters, $validator) {
@@ -198,8 +201,53 @@ class BookingController extends Controller
         return $newBooking->id;
     }
 
-    public function deleteBookingAPI($booking){
-        $booking->delete();
-        return 'true';
+    //Get
+    public function showBookingAPI(Booking $booking)
+    {
+        return $booking;
     }
+
+    //Get all bookings for the user
+    public function showAllBookingsAPI()
+    {
+        return auth()->user()->bookings;
+    }
+
+    //Put
+    public function updateBookingAPI(Request $request, Booking $booking)
+    {
+        $incomingFields = $request->validate(
+            [
+                "horse_id" => [
+                    "required",
+                    "numeric"
+                ],
+                "date" => [
+                    "required",
+                    "date",
+                    "after_or_equal:today",
+                    "before_or_equal:" . now()->addDays(30)->format('Y-m-d'),
+                ],
+                "hour" => [
+                    "required",
+                    "numeric",
+                    Rule::in(['10', '11', '12', '13'])
+                ],
+                "comment" => [
+                    "max:100"
+                ]
+            ]
+        );
+        $incomingFields['comment'] = strip_tags($incomingFields['comment']);
+        $booking->update($incomingFields);
+        return $booking;
+    }
+
+    //Delete
+    public function deleteBookingAPI(Booking $booking)
+    {
+        $booking->delete();
+        return 'Booking deleted.';
+    }
+
 }

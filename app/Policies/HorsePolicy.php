@@ -2,8 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\Horse;
 use App\Models\User;
+use App\Models\Horse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Auth\Access\Response;
 
 class HorsePolicy

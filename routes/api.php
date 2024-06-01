@@ -1,31 +1,42 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\HorseController;
 use App\Http\Controllers\BookingController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+//USER
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+//Log in
 Route::post('/login', [UserController::class, 'loginAPI']);
+
+//BOOKING
+
+//Create
 Route::post('/create-booking', [BookingController::class, 'createBookingAPI'])->middleware('auth:sanctum');
-Route::delete('/delete-booking/{booking}', [BookingController::class, 'deleteBookingAPI'])->middleware('auth:sanctum');
-//Horse
-Route::delete('/delete-horse/{horse}', [HorseController::class, 'deleteHorseAPI'])->middleware(
+//Get
+Route::get('/get-booking/{booking}', [BookingController::class, 'showBookingAPI'])->middleware(
     'auth:sanctum',
-    'can:delete,horse'
+    'can:view,booking'
 );
+//Get all bookings for the user
+Route::get('/get-all-bookings', [BookingController::class, 'showAllBookingsAPI'])->middleware(
+    'auth:sanctum'
+);
+//Update
+Route::put('/update-booking/{booking}', [BookingController::class, 'updateBookingAPI'])->middleware(
+    'auth:sanctum',
+    'can:update,booking'
+);
+//Delete (can:delete,booking -> 'delete' is the name of in the policy)
+Route::delete('/delete-booking/{booking}', [BookingController::class, 'deleteBookingAPI'])->middleware(
+    'auth:sanctum',
+    'can:delete,booking'
+);
+
+//HORSE
+
+//Delete
+// Route::delete('/delete-horse/{horse}', [HorseController::class, 'deleteHorseAPI'])->middleware(
+//     'auth:sanctum',
+//     'can:delete,horse'
+// );
