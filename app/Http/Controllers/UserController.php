@@ -17,11 +17,17 @@ class UserController extends Controller
         } else {
             //sleep(5);
             //Cache (key, time stored, function to run if key doesn't exist)
-            $userCount = Cache::remember('userCount', 1000, function () {
-                return User::count();
-            });
-            return view("homepage", ['userCount' => $userCount]);
+            // $userCount = Cache::remember('userCount', 1000, function () {
+            //     return User::count();
+            // });
+            return view("homepage", ['userCount' => 0]);
         }
+    }
+
+    public function showUserInfo(User $user)
+    {
+        $user = User::find($user->id);
+        return view("user-info", ['user' => $user]);
     }
 
     //Logout
@@ -32,8 +38,7 @@ class UserController extends Controller
     }
 
     //Login
-    public function loginAPI(Request $request)
-    {
+    public function loginAPI(Request $request){
         $incomingFields = $request->validate(
             [
                 "username" => "required",

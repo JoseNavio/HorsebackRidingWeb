@@ -39,7 +39,7 @@
                             <button class="btn btn-sm btn-secondary">Sign Out</button>
                         </form>
                         {{-- Avatar --}}
-                        <a href="/profile/{{ auth()->user()->username }}" class="mb-1 ml-3"><img
+                        <a href="/user-info/{{ auth()->user()->id }}" class="mb-1 ml-3"><img
                             title={{ auth()->user()->username }} data-toggle="tooltip" data-placement="bottom"
                             style="width: 32px; height: 32px; border-radius: 16px"
                             src="{{ asset('icons/default_avatar.png') }}" /></a>

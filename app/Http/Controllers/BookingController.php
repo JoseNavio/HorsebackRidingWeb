@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 class BookingController extends Controller
 {
@@ -141,7 +142,22 @@ class BookingController extends Controller
         $incomingFields['user_id'] = auth()->id();
         $incomingFields['comment'] = strip_tags($incomingFields['comment']);
 
-        Booking::create($incomingFields);
+        $newBooking = Booking::create($incomingFields);
+
+        $data = [
+            'subject' => "Booking Confirmed",
+            'email' => auth()->user()->email,
+            'content' => "Your booking has been confirmed. " .                       
+                         "Date: {$newBooking->date}, " .
+                         "Hour: {$newBooking->hour}." 
+        ];
+    
+
+        //Send email
+        Mail::send('email-template', $data, function($message) use ($data) {
+            $message->to($data['email'])
+            ->subject($data['subject']);
+        });
 
         return redirect("/booking-form")->with("success", "Your booking has been registered. Thank you!");
     }
@@ -198,6 +214,22 @@ class BookingController extends Controller
         $incomingFields['comment'] = strip_tags($incomingFields['comment']);
         //Create it on database
         $newBooking = Booking::create($incomingFields);
+
+        $data = [
+            'subject' => "Booking Confirmed",
+            'email' => auth()->user()->email,
+            'content' => "Your booking has been confirmed. " .                       
+                         "Date: {$newBooking->date}, " .
+                         "Hour: {$newBooking->hour}." 
+        ];
+    
+
+        //Send email
+        Mail::send('email-template', $data, function($message) use ($data) {
+            $message->to($data['email'])
+            ->subject($data['subject']);
+        });
+        
         return $newBooking->id;
     }
 
